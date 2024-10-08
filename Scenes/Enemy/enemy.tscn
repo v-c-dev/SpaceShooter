@@ -1,0 +1,22 @@
+[gd_scene load_steps=5 format=3 uid="uid://d4ai81fbbmtip"]
+
+[ext_resource type="Script" path="res://Scenes/Enemy/enemy.gd" id="1_6r6qq"]
+[ext_resource type="Texture2D" uid="uid://dubke68juc4tl" path="res://Assets/Sprites/EnemySpaceShip.png" id="2_mrjap"]
+[ext_resource type="PackedScene" uid="uid://bakawlkf5jkwu" path="res://Scenes/Enemy/enemyWeapon.tscn" id="3_t6ngg"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_pxcdw"]
+size = Vector2(44, 48)
+
+[node name="CharacterBody2D" type="CharacterBody2D"]
+script = ExtResource("1_6r6qq")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(568, 31)
+scale = Vector2(0.056, 0.056)
+texture = ExtResource("2_mrjap")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(568, 31)
+shape = SubResource("RectangleShape2D_pxcdw")
+
+[node name="Weapon" parent="." instance=ExtResource("3_t6ngg")]

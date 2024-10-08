@@ -1,0 +1,52 @@
+[gd_scene load_steps=9 format=3 uid="uid://dhw17w1q2ymx8"]
+
+[ext_resource type="PackedScene" uid="uid://ewohq3ibsrtk" path="res://Scenes/Background/Map.tscn" id="1_6abu3"]
+[ext_resource type="PackedScene" uid="uid://egxi000rypnd" path="res://Scenes/ui.tscn" id="1_fn7a0"]
+[ext_resource type="PackedScene" uid="uid://d4ai81fbbmtip" path="res://Scenes/Enemy/enemy.tscn" id="2_cyw5l"]
+[ext_resource type="PackedScene" uid="uid://cq0swjuwxynq3" path="res://Scenes/Enemy/enemy_bullet.tscn" id="3_ugf83"]
+[ext_resource type="PackedScene" uid="uid://v500uocgm5gw" path="res://Scenes/Player/player.tscn" id="4_unrfx"]
+[ext_resource type="PackedScene" uid="uid://74ud474da62s" path="res://Scenes/Player/player_bullet.tscn" id="5_ab3cq"]
+[ext_resource type="PackedScene" uid="uid://c85l4vmo8jhe4" path="res://Scenes/explosion.tscn" id="7_sx8dt"]
+
+[sub_resource type="GDScript" id="GDScript_6mg01"]
+script/source = "extends Node2D
+
+
+# Called when the node enters the scene tree for the first time.
+func _ready() -> void:
+	pass # Replace with function body.
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta: float) -> void:
+	pass
+"
+
+[node name="Space" type="Node2D"]
+script = SubResource("GDScript_6mg01")
+
+[node name="PlayerBullet" parent="." instance=ExtResource("5_ab3cq")]
+position = Vector2(300, 638)
+
+[node name="Explosion" parent="." instance=ExtResource("7_sx8dt")]
+position = Vector2(243, 218)
+
+[node name="EnemyBullet" parent="." instance=ExtResource("3_ugf83")]
+
+[node name="Map" parent="." instance=ExtResource("1_6abu3")]
+
+[node name="UI" parent="." instance=ExtResource("1_fn7a0")]
+custom_minimum_size = Vector2(600, 700)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 600.0
+offset_bottom = 700.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Enemy" parent="." instance=ExtResource("2_cyw5l")]
+position = Vector2(-21, -83)
+
+[node name="Player" parent="." instance=ExtResource("4_unrfx")]
+position = Vector2(300, 638)

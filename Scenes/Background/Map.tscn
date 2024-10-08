@@ -1,0 +1,113 @@
+[gd_scene load_steps=14 format=3 uid="uid://ewohq3ibsrtk"]
+
+[ext_resource type="Script" path="res://Scenes/Background/map.gd" id="1_kieu0"]
+[ext_resource type="Texture2D" uid="uid://drynd8svxl3ac" path="res://Assets/Background/SpaceBackground.jpg" id="1_kmw0y"]
+[ext_resource type="Texture2D" uid="uid://c4w6lrylkjj34" path="res://Assets/Background/star_small.png" id="2_rdua3"]
+
+[sub_resource type="Curve" id="Curve_farxu"]
+_data = [Vector2(0, 0), 0.0, 1.0, 0, 1, Vector2(1, 1), 1.0, 0.0, 1, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_pr22w"]
+curve = SubResource("Curve_farxu")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_6mxu5"]
+particle_flag_disable_z = true
+emission_shape_offset = Vector3(300, 0, 0)
+emission_shape = 3
+emission_box_extents = Vector3(300, 1, 1)
+direction = Vector3(0, 1, 0)
+spread = 0.0
+initial_velocity_min = 10.0
+initial_velocity_max = 50.0
+gravity = Vector3(0, 0, 0)
+scale_min = 0.3
+scale_max = 0.3
+scale_over_velocity_min = 10.0
+scale_over_velocity_max = 50.0
+scale_over_velocity_curve = SubResource("CurveTexture_pr22w")
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_8qkyb"]
+size = Vector2(600, 50)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_xuvmx"]
+size = Vector2(87, 1033)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_rub1l"]
+size = Vector2(87, 1051)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_06od5"]
+size = Vector2(1058, 121)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_57t4x"]
+size = Vector2(650, 10)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4ucb4"]
+size = Vector2(15, 715)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_l0e1i"]
+size = Vector2(19.5, 715)
+
+[node name="Map" type="Node2D"]
+script = ExtResource("1_kieu0")
+
+[node name="SpaceBackground" type="Sprite2D" parent="."]
+position = Vector2(300, 349.5)
+scale = Vector2(0.157813, 0.329167)
+texture = ExtResource("1_kmw0y")
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="."]
+amount = 100
+process_material = SubResource("ParticleProcessMaterial_6mxu5")
+texture = ExtResource("2_rdua3")
+lifetime = 60.0
+preprocess = 60.0
+visibility_rect = Rect2(0, 0, 600, 700)
+
+[node name="SpawnArea" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SpawnArea"]
+position = Vector2(298, -52)
+shape = SubResource("RectangleShape2D_8qkyb")
+
+[node name="SpawnTimer" type="Timer" parent="."]
+wait_time = 1.5
+autostart = true
+
+[node name="RemoveArea" type="Area2D" parent="."]
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RemoveArea"]
+position = Vector2(-189, 325.5)
+shape = SubResource("RectangleShape2D_xuvmx")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="RemoveArea"]
+position = Vector2(766, 324.5)
+shape = SubResource("RectangleShape2D_rub1l")
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="RemoveArea"]
+position = Vector2(285, 885.5)
+shape = SubResource("RectangleShape2D_06od5")
+
+[node name="BorderFence" type="StaticBody2D" parent="."]
+collision_layer = 4
+metadata/_edit_group_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BorderFence"]
+position = Vector2(300, -10)
+shape = SubResource("RectangleShape2D_57t4x")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="BorderFence"]
+position = Vector2(300, 710)
+shape = SubResource("RectangleShape2D_57t4x")
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="BorderFence"]
+position = Vector2(-10.5, 346.5)
+shape = SubResource("RectangleShape2D_4ucb4")
+
+[node name="CollisionShape2D4" type="CollisionShape2D" parent="BorderFence"]
+position = Vector2(612.25, 351)
+shape = SubResource("RectangleShape2D_l0e1i")
+
+[connection signal="timeout" from="SpawnTimer" to="." method="_on_spawn_timer_timeout"]
+[connection signal="body_entered" from="RemoveArea" to="." method="_on_remove_area_body_entered"]
